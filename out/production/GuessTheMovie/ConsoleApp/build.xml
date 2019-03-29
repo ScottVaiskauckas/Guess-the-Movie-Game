@@ -1,0 +1,35 @@
+<project name="Guess The Movie" default="jar">
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="." destdir="build/classes"/>
+    </target>
+	
+	<target name="copy_resources">
+		<copy todir="build/resources/ConsoleApp/resources">
+			<fileset dir = "resources"/>
+		</copy>	
+	</target>
+
+    <target name="jar" depends="clean, compile, copy_resources">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/GuessTheMovie.jar" >
+			<fileset dir="build/classes"/>
+			<fileset dir ="build/resources"/>
+            <manifest>
+                <attribute name="Main-Class" value="ConsoleApp.GuessTheMovie"/>
+            </manifest>
+        </jar>
+        <delete dir="build/classes"/>
+        <delete dir="build/resources"/>
+    </target>
+
+    <target name="run">
+        <java jar="build/jar/GuessTheMovie.jar" fork="true"/>
+    </target>
+
+</project>
