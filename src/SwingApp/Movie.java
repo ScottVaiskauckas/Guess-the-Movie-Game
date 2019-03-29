@@ -17,4 +17,23 @@ public class Movie {
         return title;
     }
 
+    public static String movieSelector(){
+        InputStream is = Main.class.getResourceAsStream("resources/movieList.txt");
+        InputStreamReader isr = new InputStreamReader(is);
+        BufferedReader bufferedReader = new BufferedReader(isr);
+        String st;
+        ArrayList<String> movieArrayList = new ArrayList<String>();
+        try {
+            while ((st = bufferedReader.readLine()) != null) {
+                movieArrayList.add(st);
+            }
+            bufferedReader.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        int randomNumber = (int) (Math.random() * movieArrayList.size());
+        String selectedMovie = movieArrayList.get(randomNumber);
+        return selectedMovie;
+    }
 }

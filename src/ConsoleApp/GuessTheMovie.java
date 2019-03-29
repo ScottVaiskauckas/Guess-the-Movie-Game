@@ -9,10 +9,7 @@ import java.util.Scanner;
 public class GuessTheMovie {
 
     public static void main(String[] args) throws Exception{
-        Movie movie = new Movie();
-        String selectedMovie = movieSelector();
-        movie.setTitle(selectedMovie);
-        String movieTitle = movie.getTitle();
+        String movieTitle = Movie.movieSelector();
         /*StringBuilders for player's guesses
          * movieTitlePlaceHolder is for testing whether the puzzle has been solved
          * movieTitlePlaceHolder2 is for displaying the title with spaces between underscores
@@ -47,12 +44,11 @@ public class GuessTheMovie {
 
             String lettersGuessedString = lettersGuessed.toString();
             String guess = scanner.nextLine();
-            if (guess.equals("")){
+            /*if (guess.equals("")){
                 guess = " ";
-            }
+            }*/
 
-            // Need to add if guess is 1 char
-            if(guess.length() < 2) {
+            if(guess.length() < 2 && guess.length() > 0) {
                 //check if letter has already been guessed
                 if (lettersGuessedString.contains(guess.toLowerCase()) || lettersGuessedString.contains(guess.toUpperCase())) {
                     System.out.println(" ");
@@ -100,7 +96,7 @@ public class GuessTheMovie {
                 }
             }
             //If guessing the entire movie title
-            else {
+            else if (guess.length() > 2) {
                 if (movieTitle.toLowerCase().equals(guess.toLowerCase())) {
                     hasWon = true;
                     System.out.println(movieTitle);
@@ -109,6 +105,10 @@ public class GuessTheMovie {
                     numberWrongGuesses += 1;
                     System.out.println(" ");
                 }
+            }
+            else {
+                System.out.println("Please make a guess");
+                System.out.println(" ");
             }
         }
         //Game end result
@@ -119,25 +119,5 @@ public class GuessTheMovie {
             System.out.println("YOU'RE OUT OF GUESSES! THE MOVIE TITLE IS: " + movieTitle);
             System.out.println("YOU LOSE! TRY AGAIN!!");
         }
-    }
-
-    public static String movieSelector(){
-        InputStream is = ConsoleApp.GuessTheMovie.class.getResourceAsStream("resources/movieList.txt");
-        InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader bufferedReader = new BufferedReader(isr);
-        String st;
-        ArrayList<String> movieArrayList = new ArrayList<String>();
-        try {
-            while ((st = bufferedReader.readLine()) != null) {
-                movieArrayList.add(st);
-            }
-            bufferedReader.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-
-        int randomNumber = (int) (Math.random() * movieArrayList.size());
-        String selectedMovie = movieArrayList.get(randomNumber);
-        return selectedMovie;
     }
 }

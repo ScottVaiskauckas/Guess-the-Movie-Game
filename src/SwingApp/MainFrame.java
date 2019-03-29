@@ -24,10 +24,7 @@ public class MainFrame extends JFrame {
     public MainFrame(){
         super("Guess the Movie");
 
-        Movie movie = new Movie();
-        selectedMovie = movieSelector();
-        movie.setTitle(selectedMovie);
-        movieTitle = movie.getTitle();
+        movieTitle = Movie.movieSelector();
         /*StringBuilders for player's guesses
         * movieTitlePlaceHolder is for testing whether the puzzle has been solved
         * movieTitlePlaceHolder2 is for displaying the title with spaces between underscores
@@ -200,9 +197,7 @@ public class MainFrame extends JFrame {
             public void resetButtonPressed(ResetEvent event) {
                 hasWon = false;
                 numberWrongGuesses = 0;
-                selectedMovie = movieSelector();
-                movie.setTitle(selectedMovie);
-                movieTitle = movie.getTitle();
+                movieTitle = Movie.movieSelector();
                 movieTitlePlaceHolder = new StringBuilder(movieTitle.length());
                 movieTitlePlaceHolder2 = new StringBuilder(movieTitle.length()*2);
 
@@ -224,25 +219,5 @@ public class MainFrame extends JFrame {
                 lettersGuessed.delete(0, 51);
             }
         });
-    }
-
-    public static String movieSelector(){
-        InputStream is = Main.class.getResourceAsStream("resources/movieList.txt");
-        InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader bufferedReader = new BufferedReader(isr);
-        String st;
-        ArrayList<String> movieArrayList = new ArrayList<String>();
-        try {
-            while ((st = bufferedReader.readLine()) != null) {
-                movieArrayList.add(st);
-            }
-            bufferedReader.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-
-        int randomNumber = (int) (Math.random() * movieArrayList.size());
-        String selectedMovie = movieArrayList.get(randomNumber);
-        return selectedMovie;
     }
 }
